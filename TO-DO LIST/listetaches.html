@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-DO LIST</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="conteneur">
+        <h1>To-Do List</h1>
+        <div class="nouvelle-tache">
+            <input type="text" id="inputTache" placeholder="ajouter une nouvelle tâche">
+            <button id="ajouterBouton">Ajouter</button>
+        </div>
+        <ul id="listeTaches"></ul>
+        <button id="toutSupprimer" class="tout-supprimer">toutSupprimer</button>
+            <p>total de tâches : <span id="totalTaches">0</span></p>
+            <p>tâches terminées : <span id="tachesTerminees">0</span></p>
+
+        </div>
+    </div>
+    <script>
+        // selection des éléments
+        const inputTache = document.getElementById('inputTache');
+        const ajouterBouton = document.getElementById('ajouterBouton');
+        const listeTaches = document.getElementById('listeTaches');
+        const toutSupprimer = document.getElementById('toutSupprimer');
+        const totalTaches = document.getElementById('totalTaches');
+        const tachesTerminees = document.getElementById('tachesTerminees');
+
+        let compteurTotal = 0;
+        let compteurTerminees = 0;
+
+        //fonction pour ajouter une tâche
+
+        ajouterBouton.addEventListener('click',() =>{
+            const tache = inputTache.value.trim();
+            if(tache){
+                // créer un nouvel élément <li>
+                    const nouvelleTache = document.createElement('li');
+
+                    nouvelleTache.textContent = tache;
+                    
+                    // ajouter une case à cocher
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.addEventListener('change',() => {
+                        if(checkbox.checked){
+                            nouvelleTache.classList.add('completed');
+                            compteurTerminees++;
+                        
+                        }else{
+                            nouvelleTache.classList.remove('completed');
+                            compteurTerminees--;
+                        }
+                        tachesTerminees.textContent = compteurTerminees;
+
+                    });
+                        nouvelleTache.prepend(checkbox);
+                        listeTaches.appendChild(nouvelleTache);
+
+                        //Mettre à jour le compteur
+                        compteurTotal++;
+                        totalTaches.textContent = compteurTotal;
+                        //Réinitialiser le champs d'entrée
+                        inputTache.value = '';
+            } else {
+                alert('Veuillez entrer une tâche !');
+            }
+        });
+        // Fonction pour supprimer toutes les tâches
+        toutSupprimer.addEventListener('click', () => {
+            listeTaches.innerHTML = '';
+            compteurTotal = 0;
+            compteurTerminees = 0;
+            totalTaches.textContent = compteurTotal;
+            tachesTerminees.textContent = compteurTerminees;
+        });
+
+    </script>      
+</body>      
+</html>
